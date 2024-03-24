@@ -37,7 +37,7 @@ def fetch_weather_and_forecast(city, api, current_weather_url, forecast_url):
         'city': city,
         'temperature': round(response['main']['temp'] - 273.15, 2),
         'description': response['weather'][0]['description'],
-        'icon': response['weather'][0]['icon']
+        'icon': response['weather'][0]['icon'],
     }
 
     daily_forecast = []
@@ -45,10 +45,10 @@ def fetch_weather_and_forecast(city, api, current_weather_url, forecast_url):
     if 'daily' in forecast_res:
         for data in forecast_res['daily'][:5]:
             daily_forecast.append({
-                "day": datetime.datetime.fromtimestamp(data['dt']).strftime("%A"),
-                "min_temp": round(data['temp']['min'] - 273.15, 2),
-                "max_temp": round(data['temp']['max'] - 273.15, 2),
-                "description": data['weather'][0]['description']
+                'day': datetime.datetime.fromtimestamp(data['dt']).strftime('%A'),
+                'min_temp': round(data['temp']['min'] - 273.15, 2),
+                'max_temp': round(data['temp']['max'] - 273.15, 2),
+                'description': data['weather'][0]['description'],
             })
     else:
         # Handle case where 'daily' key is not found

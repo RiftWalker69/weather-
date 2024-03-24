@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,115 +6,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            margin: 0;
-            padding: 0;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        
-        .weather-info {
-            margin-top: 20px;
-        }
-        
-        .weather-card {
-            margin-bottom: 20px;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-        }
-        
-        .weather-card h2 {
-            margin-bottom: 10px;
-            color: #333;
-        }
-        
-        .weather-card p {
-            margin: 5px 0;
-            color: #555;
-        }
-        
-        .weather-icon {
-            width: 50px;
-            height: 50px;
-            margin-right: 10px;
-            vertical-align: middle;
-        }
-        
-        .forecast-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
-        
-        .forecast-card {
-            flex-basis: 45%;
-            margin-bottom: 10px;
-            padding: 10px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-        }
-        
-        .forecast-card h3 {
-            margin-bottom: 5px;
-            color: #333;
-        }
-        
-        .forecast-card p {
-            margin: 5px 0;
-            color: #555;
-        }
+        /* style.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+form {
+    margin: 20px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.comparison-container {
+    display: flex;
+    justify-content: center;
+}
+
+.city-container {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.city-container h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.city-container h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.city-container p {
+    margin-bottom: 10px;
+}
+
+.city-container img {
+    margin-top: 10px;
+    max-width: 100px;
+}
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Weather App</h1>
-        <form method="post" id="search-form">
-            {% csrf_token %}
-            <label for="city">Enter city name:</label>
-            <input type="text" id="city" name="city1" placeholder="e.g. London">
-            <input type="text" id="city2" name="city2" placeholder="e.g. New York">
-            <button type="submit">Search</button>
-        </form>
-        <div class="weather-info">
-            {% if weather_data1 %}
-                <div class="weather-card">
-                    <h2>{{ weather_data1.city }}</h2>
-                    <p>{{ weather_data1.temperature }}°C</p>
-                    <p>{{ weather_data1.description }}</p>
-                    <img src="http://openweatherdata.org/img/w/{{ weather_data1.icon }}.png" alt="{{ weather_data1.description }}" class="weather-icon">
-                </div>
-            {% endif %}
-            {% if daily_forecast1 %}
-                <h2>Forecast</h2>
-                <div class="forecast-container">
-                    {% for forecast in daily_forecast1 %}
-                        <div class="forecast-card">
-                            <h3>{{ forecast.day }}</h3>
-                            <p>{{ forecast.min_temp }}°C - {{ forecast.max_temp }}°C</p>
-                            <p>{{ forecast.description }}</p>
-                            <img src="http://openweatherdata.org/img/w/{{ forecast.icon }}.png" alt="{{ forecast.description }}" class="weather-icon">
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
+
+<form method="post">
+  {% csrf_token %}
+  <input type="text" name="city1" placeholder="Enter city 1">
+  <input type="text" name="city2" placeholder="Enter city 2">
+  <button type="submit">Compare Weather</button>
+</form>
+
+<div class="comparison-container">
+  {% if weather_data1 %}
+    <div class="city-container">
+      {% include 'city.html' with weather_data=weather_data1 daily_forecasts=forecast_data1 %}
     </div>
+  {% endif %}
+  {% if weather_data2 %}
+    <div class="city-container">
+      {% include 'city.html' with weather_data=weather_data2 daily_forecasts=forecast_data2 %}
+    </div>
+  {% endif %}
+</div>
+
 </body>
 </html>
