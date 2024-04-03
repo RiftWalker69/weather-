@@ -9,13 +9,23 @@
         /* style.css */
 
 body {
+    
     font-family: Arial, sans-serif;
+    display: flex;
+    background-image: url("https://wallpaperaccess.com/full/2548059.jpg");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
     margin: 0;
     padding: 0;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 form {
+
     margin: 20px;
+    
 }
 
 input[type="text"] {
@@ -68,26 +78,28 @@ button {
     </style>
 </head>
 <body>
-
-<form method="post">
-  {% csrf_token %}
-  <input type="text" name="city1" placeholder="Enter city 1">
-  <input type="text" name="city2" placeholder="Enter city 2">
-  <button type="submit">Compare Weather</button>
-</form>
-
-<div class="comparison-container">
-  {% if weather_data1 %}
+<div class="container">
+  
+  <form method="post">
+    {% csrf_token %}
+    <input type="text" name="city1" placeholder="Enter city 1">
+    <input type="text" name="city2" placeholder="Enter city 2">
+    <button type="submit">Compare Weather</button>
+  </form>
+  
+  <div class="comparison-container">
+    {% if weather_data1 %}
     <div class="city-container">
       {% include 'city.html' with weather_data=weather_data1 daily_forecasts=forecast_data1 %}
     </div>
-  {% endif %}
-  {% if weather_data2 %}
+    {% endif %}
+    {% if weather_data2 %}
     <div class="city-container">
       {% include 'city.html' with weather_data=weather_data2 daily_forecasts=forecast_data2 %}
     </div>
-  {% endif %}
+    {% endif %}
+  </div>
+  
 </div>
-
 </body>
 </html>
