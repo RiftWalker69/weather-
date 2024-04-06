@@ -1,8 +1,7 @@
 import requests
 import datetime
 from django.shortcuts import render
-
-
+from django.http import HttpResponse
 API_KEY = "38b99bbe57c19d30081034907de0bc40"
 def application(request):
     api_key = "38b99bbe57c19d30081034907de0bc40"
@@ -35,7 +34,8 @@ def application(request):
         return render(request, "home.html", context)
     else:
         return render(request, "home.html")
-
+    
+    
 
 def fetch_weather_and_forecast(city, api_key, current_weather_url, forecast_url):
     # Fetch current weather data
@@ -58,7 +58,6 @@ def fetch_weather_and_forecast(city, api_key, current_weather_url, forecast_url)
         'icon': current_response['weather'][0]['icon'],
         'lat':current_response['coord']['lat'],
         'lon':current_response['coord']['lon'],
-        
     }
 
     
@@ -96,7 +95,10 @@ def get_5_day_forecast(city, API_KEY):
                 forecast_dates.add(forecast_date)
     
     return daily_forecast
-# Example usage
 
+
+
+def map_view(request):
+    return render(request, 'map.html')
 # Extracting and printing min and max temperatures for each day
 

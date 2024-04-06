@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leaflet Map</title>
+    <!-- Include Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Include Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- Include Leaflet Control Search CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-search/dist/leaflet-search.min.css" />
+    <!-- Include Leaflet Control Search JavaScript -->
+    <script src="https://unpkg.com/leaflet-control-search/dist/leaflet-search.min.js"></script>
+    <style>
+           body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            height: 100vh;
+        }
+
+        #map {
+            height: calc(100vh - 40px); /* Adjusted to make space for search box */
+            width: 100%;
+        }
+
+        #search-box {
+            background-color: white;
+            padding: 5px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 10px; /* Adjusted to create space between map and search box */
+            margin-left: 10px; /* Adjusted to position search box to the left */
+            display: flex;
+            align-items: center;
+        }
+
+        #search-input {
+            width: 500px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin-right: 5px;
+        }
+
+        #search-button {
+            padding: 6px 10px;
+            width: 150px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        #search-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    </style>
+</head>
+<body>
+    <div id="search-box">
+      <input type="text" id="search-input" placeholder="Enter city name">
+      <button id="search-button" onclick="searchCity()">Search</button>
+    </div>
+  <div id="map"></div>
+    <script>
+        var map = L.map('map').setView([51.505, -0.09], 13); // Set initial map coordinates and zoom level
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { // Add tile layer (OpenStreetMap)
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var searchControl = new L.Control.Search({
+            position: 'topright',
+            propertyName: 'name',
+            marker: false,
+            moveToLocation: function (latlng, title, map) {
+                map.setView(latlng, 13); // Set the map view to the searched location
+            }
+        });
+
+        map.addControl(searchControl);
+
+        function searchCity() {
+            var cityName = document.getElementById('search-input').value;
+            if (cityName) {
+                // Use Nominatim API to search for the city coordinates
+                fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + cityName)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        var lat = parseFloat(data[0].lat);
+                        var lon = parseFloat(data[0].lon);
+                        map.setView([lat, lon], 13); // Set the map view to the searched location
+                    } else {
+                        alert('City not found.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while searching for the city.');
+                });
+            } else {
+                alert('Please enter a city name to search.');
+            }
+        }
+    </script>
+</body>
+</html>

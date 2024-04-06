@@ -1,6 +1,6 @@
 {% if weather_data %}
     
-<h1>{{ weather_data.city }}</h1>
+<h1 id="city">{{ weather_data.city }}</h1>
     <div class="weather_container">
         <div class="datentime">
             <h2>Today</h2>
@@ -18,7 +18,7 @@
             <img src="http://openweathermap.org/img/w/{{ weather_data.icon }}.png" alt="{{ weather_data.description }}">
             <p>{{ weather_data.description }}</p>
         </div>
-        <div>
+        <div class="coordinates">
             <h2>Co-ordinates:</h2>
             <p>Latitude: {{ weather_data.lat }} °</p>
             <p>Longitude: {{ weather_data.lon }} °</p>
@@ -44,4 +44,6 @@
             </div>
         {% endfor %}
     </div>
+
+
 {% endif %}

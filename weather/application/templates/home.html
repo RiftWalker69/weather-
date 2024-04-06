@@ -8,26 +8,35 @@
     <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
-<div class="container">
+  <div class="video_container"> 
+    <video autoplay loop muted>
+      <source src="{% static 'background.mp4' %}" type="video/mp4">
+    </video>
+  </div>
+  <div class="container">
+    <form method="post">
+      {% csrf_token %}
+      <input type="text" name="city1" placeholder="Enter city 1">
+      <input type="text" name="city2" placeholder="Enter city 2">
+      <button type="submit">Compare Weather</button>
+    </form>
   
-  <form method="post">
-    {% csrf_token %}
-    <input type="text" name="city1" placeholder="Enter city 1">
-    <input type="text" name="city2" placeholder="Enter city 2">
-    <button type="submit">Compare Weather</button>
-  </form>
+    {% if weather_data1 %}
+      <div class="city-container">
+        {% include 'city.html' with weather_data=weather_data1 daily_forecasts=daily_forecasts1 %}
+      </div>
+    {% endif %}
+    {% if weather_data2 %}
+      <div class="city-container">
+        {% include 'city.html' with weather_data=weather_data2 daily_forecasts=daily_forecasts2 %}
+      </div>
+    {% endif %}
+    
+    <!-- Link to map view as a button -->
+    <form class="mapbutton" action="{% url 'map' %}">
+        <button type="submit">View Map</button>
+    </form>
   
-  {% if weather_data1 %}
-    <div class="city-container">
-      {% include 'city.html' with weather_data=weather_data1 daily_forecasts=daily_forecasts1 %}
-    </div>
-  {% endif %}
-  {% if weather_data2 %}
-    <div class="city-container">
-      {% include 'city.html' with weather_data=weather_data2 daily_forecasts=daily_forecasts2 %}
-    </div>
-  {% endif %}
-  
-</div>
+  </div>
 </body>
 </html>
