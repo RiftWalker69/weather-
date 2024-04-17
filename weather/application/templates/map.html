@@ -11,7 +11,7 @@
     <!-- Include Leaflet Control Search JavaScript -->
     <script src="https://unpkg.com/leaflet-control-search/dist/leaflet-search.min.js"></script>
     <style>
-           body {
+        body {
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
@@ -60,20 +60,19 @@
             background-color: #0056b3;
         }
     </style>
-    </style>
 </head>
 <body>
     <div id="search-box">
-      <input type="text" id="search-input" placeholder="Enter city name">
-      <button id="search-button" onclick="searchCity()">Search</button>
+        <input type="text" id="search-input" placeholder="Enter city name">
+        <button id="search-button" onclick="searchCity()">Search</button>
     </div>
-  <div id="map"></div>
+    <div id="map"></div>
     <script>
         var map = L.map('map').setView([51.505, -0.09], 13); // Set initial map coordinates and zoom level
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { // Add tile layer (OpenStreetMap)
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
-
+        
         var searchControl = new L.Control.Search({
             position: 'topright',
             propertyName: 'name',
@@ -96,6 +95,9 @@
                         var lat = parseFloat(data[0].lat);
                         var lon = parseFloat(data[0].lon);
                         map.setView([lat, lon], 13); // Set the map view to the searched location
+
+                        // Add a custom marker to indicate the searched city location
+                        L.marker([lat, lon]).addTo(map).bindPopup(cityName).openPopup();
                     } else {
                         alert('City not found.');
                     }

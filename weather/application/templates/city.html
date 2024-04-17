@@ -1,6 +1,10 @@
-{% if weather_data %}
-    
-<h1 id="city">{{ weather_data.city }}</h1>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    {% if weather_data %}
+    <h1 id="city">{{ weather_data.city }}</h1>
     <div class="weather_container">
         <div class="datentime">
             <h2>Today</h2>
@@ -8,42 +12,45 @@
             <h1>{{ weather_data.time }}</h1>
         </div>
         <div class="info">
-            <p>Temparture: {{ weather_data.temperature }}°C</p>
+            <p class="temperature-data">{{ weather_data.temperature }}°C</p>
             <p>Pressure: {{ weather_data.pressure }} N/m²</p>
             <p>Humidity: {{ weather_data.humidity}}%</p>
-            <p>Feels Like: {{ weather_data.feelslike }}°C</p>
-            
-        </div>
+            <p>Feels Like {{ weather_data.feelslike }}°C</p>
+        </div> 
         <div>
             <img src="http://openweathermap.org/img/w/{{ weather_data.icon }}.png" alt="{{ weather_data.description }}">
             <p>{{ weather_data.description }}</p>
         </div>
         <div class="coordinates">
-            <h2>Co-ordinates:</h2>
+            <h2>Coordinates:</h2>
             <p>Latitude: {{ weather_data.lat }} °</p>
             <p>Longitude: {{ weather_data.lon }} °</p>
         </div>
         <div class="wind">
             <h1>Wind speed:{{ weather_data.windspeed }} KMPH</h1>
         </div>
-        
     </div>
+    {% endif %}
 
-{% endif %}
-
-{% if daily_forecasts %}
+    {% if daily_forecasts %}
     <h2>5-Day Forecast</h2>
     <div class="forecast-container">
         {% for forecast in daily_forecasts %}
-            <div class="forecast">
+        <div class="forecast">
+            <div>
                 <h3>{{ forecast.day }}</h3>
                 <p>{{ forecast.date }}</p>
                 <p>{{ forecast.min_temp }}°C - {{ forecast.max_temp }}°C</p>
-                <p>{{ forecast.description }}</p>
-                <img src="http://openweathermap.org/img/w/{{ forecast.icon }}.png" alt="{{ forecast.description }}">
             </div>
-        {% endfor %}
+            <div>
+                <img src="http://openweathermap.org/img/w/{{ forecast.icon }}.png" alt="{{ forecast.description }}">
+                <p>{{ forecast.description }}</p>
+            </div>
+        </div>
+        {% endfor %}    
+            
     </div>
+    {% endif %}
 
-
-{% endif %}
+    
+</body>

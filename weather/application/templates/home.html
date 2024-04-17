@@ -6,13 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 <body>
-  <div class="video_container"> 
-    <video autoplay loop muted>
-      <source src="{% static 'background.mp4' %}" type="video/mp4">
-    </video>
-  </div>
+ 
   <div class="container">
     <form method="post">
       {% csrf_token %}
@@ -24,19 +23,158 @@
     {% if weather_data1 %}
       <div class="city-container">
         {% include 'city.html' with weather_data=weather_data1 daily_forecasts=daily_forecasts1 %}
+        <div class="graphic">
+          <div class="map-container">
+            <div id="map1" class="minimap"></div>
+          </div>
+          <div class="graph-container">
+            <canvas id="temperatureChart1" width="400" height="200"></canvas>
+          </div>
+        </div>
       </div>
     {% endif %}
     {% if weather_data2 %}
       <div class="city-container">
         {% include 'city.html' with weather_data=weather_data2 daily_forecasts=daily_forecasts2 %}
+        <div class="graphic">
+          <div class="map-container">
+            <div id="map2" class="minimap"></div>
+          </div>
+          <div class="graph-container">
+            <canvas id="temperatureChart2" width="400" height="200"></canvas>
+          </div>
+        </div>
       </div>
     {% endif %}
     
     <!-- Link to map view as a button -->
-    <form class="mapbutton" action="{% url 'map' %}">
-        <button type="submit">View Map</button>
-    </form>
-  
+    
   </div>
+  <form class="mapbutton" action="{% url 'map' %}">
+    <button type="submit">View Map</button>
+</form>
+  <!-- Leaflet.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+
+  <script>
+      // Function to fetch weather data and initialize minimaps and graphs for both cities
+      function fetchWeatherAndInitMaps() {
+          // Replace 'YOUR_API_KEY' with your actual API key from OpenWeatherMap
+          var apiKey = '38b99bbe57c19d30081034907de0bc40';
+          var city1 = '{{ weather_data1.city }}';
+          var city2 = '{{ weather_data2.city }}';
+          var apiUrl1 = 'https://api.openweathermap.org/data/2.5/weather?q=' + city1 + '&appid=' + apiKey;
+          var apiUrl2 = 'https://api.openweathermap.org/data/2.5/weather?q=' + city2 + '&appid=' + apiKey;
+
+          // Fetch weather data for city 1 and create map and graph
+          fetch(apiUrl1)
+              .then(response => response.json())
+              .then(data1 => {
+                  var lat1 = data1.coord.lat;
+                  var lon1 = data1.coord.lon;
+                  var cityName1 = data1.name;
+
+                  var map1 = L.map('map1').setView([lat1, lon1], 13);
+
+                  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  }).addTo(map1);
+
+                  L.marker([lat1, lon1]).addTo(map1)
+                      .bindPopup(cityName1)
+                      .openPopup();
+
+                  // Fetch temperature data for city 1 and create graph
+                  var temperatures1 = [
+                      {% for forecast in daily_forecasts1 %}
+                          {{ forecast.max_temp }},
+                      {% endfor %}
+                  ];
+
+                  var days1 = [
+                      {% for forecast in daily_forecasts1 %}
+                          '{{ forecast.day }}',
+                      {% endfor %}
+                  ];
+
+                  createTemperatureGraph('temperatureChart1', temperatures1, days1);
+              })
+              .catch(error => console.error('Error fetching weather data for city 1:', error));
+
+          // Fetch weather data for city 2 and create map and graph
+          fetch(apiUrl2)
+              .then(response => response.json())
+              .then(data2 => {
+                  var lat2 = data2.coord.lat;
+                  var lon2 = data2.coord.lon;
+                  var cityName2 = data2.name;
+
+                  var map2 = L.map('map2').setView([lat2, lon2], 13);
+
+                  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  }).addTo(map2);
+
+                  L.marker([lat2, lon2]).addTo(map2)
+                      .bindPopup(cityName2)
+                      .openPopup();
+
+                  // Fetch temperature data for city 2 and create graph
+                  var temperatures2 = [
+                      {% for forecast in daily_forecasts2 %}
+                          {{ forecast.max_temp }},
+                      {% endfor %}
+                  ];
+
+                  var days2 = [
+                      {% for forecast in daily_forecasts2 %}
+                          '{{ forecast.day }}',
+                      {% endfor %}
+                  ];
+
+                  createTemperatureGraph('temperatureChart2', temperatures2, days2);
+              })
+              .catch(error => console.error('Error fetching weather data for city 2:', error));
+      }
+
+      // Function to create temperature graph
+      function createTemperatureGraph(canvasId, temperatures, days) {
+          var ctx = document.getElementById(canvasId).getContext('2d');
+          var temperatureChart = new Chart(ctx, {
+              type: 'line',
+              data: {
+                  labels: days,
+                  datasets: [{
+                      label: 'Temperature (°C)',
+                      data: temperatures,
+                      borderColor: 'rgb(75, 192, 192)',
+                      borderWidth: 2,
+                      fill: false,
+                  }]
+              },
+              options: {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  scales: {
+                      yAxes: [{
+                          scaleLabel: {
+                              display: true,
+                              labelString: 'Temperature (°C)'
+                          }
+                      }],
+                      xAxes: [{
+                          scaleLabel: {
+                              display: true,
+                              labelString: 'Day'
+                          }
+                      }]
+                  }
+              }
+          });
+      }
+
+      // Call the function to fetch weather data and initialize minimaps and graphs when the page loads
+      window.onload = fetchWeatherAndInitMaps;
+  </script>
 </body>
 </html>

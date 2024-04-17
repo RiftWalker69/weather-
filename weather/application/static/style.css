@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     display: flex;
-    background-image: url("background.gif");
+    background-image: url("clouds.png");
     background-attachment: fixed;
     background-size: cover;
     background-position: center;
@@ -13,6 +13,9 @@ body {
     align-items: center;
     flex-direction: column;
 }
+.datentime h1{
+    font-weight: 200;
+}
 .video_container {
     position: relative;
     width: 100%;
@@ -20,7 +23,8 @@ body {
     overflow: hidden;
 }
 #city{
-    color: black;
+    font-size:5vh;
+    color: #4D6873;
 }
 video {
     position: absolute;
@@ -92,7 +96,7 @@ button {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 h1 {
-    color: black;
+    color: #4D6873;
     font-size: 28px;
     margin-bottom: 10px;
 }
@@ -111,37 +115,54 @@ p {
     padding: 5px;
     gap: 40px;
 }
+.weather_container img{
+    width: 12vh;
+}
 .forecast-container {
     display: flex;
 }
-
+.map-container{
+    display: flex;
+    padding: 5px;
+    width: 50vh;
+    border: 1px solid black;
+}
+.temperature-data{
+    font-size: 3vh;
+    font-weight: 500;
+}
 .forecast {
-    width: calc(20% - 20px);
+    display: flex;
+    width: 23vh;
     margin: 10px;
     padding: 10px;
+    gap:10px;
+    flex-direction: column;
     background-color: transparent;
     backdrop-filter: blur(40px);
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 .weather_container h2{
-    color: white;
+    color: rgb(0, 0, 0);
     font-size: 15px;
 }
 .weather_container h1{
-    color: white;
+    color: rgb(0, 0, 0);
     
 }
 .wind h1{
+    font-weight: 600;
     color: black;
 }
 .coordinates h2{
     color: black;
 }
 .info{
-    border: 1px solid black;
-    padding: 10px;
     border-radius: 18px;
+}
+.info p {
+    font-weight:500;
 }
 .forecast h3 {
     font-size: 18px;
@@ -150,4 +171,20 @@ p {
 
 .forecast p {
     margin-bottom: 5px;
+}
+.minimap{
+    width: 50vh;
+    height: 300px;
+}
+.graph-container{
+    display: flex;
+    height: 300px;
+    width: 70vh;
+    border: 1px solid black;
+    padding: 3px;
+}
+.graphic{
+    margin-top: 30px;
+    display: flex;
+    column-gap: 100px;
 }
