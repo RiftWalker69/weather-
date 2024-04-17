@@ -13,7 +13,7 @@
         </div>
         <div class="info">
             <p class="temperature-data">{{ weather_data.temperature }}°C</p>
-            <p>Pressure: {{ weather_data.pressure }} N/m²</p>
+            <p>Pressure: {{ weather_data.pressure }} hPa</p>
             <p>Humidity: {{ weather_data.humidity}}%</p>
             <p>Feels Like {{ weather_data.feelslike }}°C</p>
         </div> 
@@ -27,7 +27,8 @@
             <p>Longitude: {{ weather_data.lon }} °</p>
         </div>
         <div class="wind">
-            <h1>Wind speed:{{ weather_data.windspeed }} KMPH</h1>
+            <h1>Wind speed:{{ weather_data.windspeed }} meter/sec</h1>
+            <p>Rain: {{ weather_data.rain }}</p>
         </div>
     </div>
     {% endif %}
@@ -52,5 +53,4 @@
     </div>
     {% endif %}
 
-    
 </body>

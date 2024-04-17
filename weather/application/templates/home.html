@@ -31,6 +31,12 @@
             <canvas id="temperatureChart1" width="400" height="200"></canvas>
           </div>
         </div>
+        <div id="airpollution1" style="display: none;">
+            {% include 'air.html' with airpop_data=airpop_data1%}
+        </div>
+        <div class="pbutton">
+            <button id="airbutton1" onclick="toggleAirPollution('airpollution1', 'airbutton1')"> Show air pollution data</button>
+        </div>
       </div>
     {% endif %}
     {% if weather_data2 %}
@@ -43,6 +49,12 @@
           <div class="graph-container">
             <canvas id="temperatureChart2" width="400" height="200"></canvas>
           </div>
+        </div>
+        <div id="airpollution2" style="display: none;">
+            {% include 'air.html' with airpop_data=airpop_data2%}
+        </div>
+        <div class="pbutton">
+            <button id="airbutton2" onclick="toggleAirPollution('airpollution2','airbutton2')"> Show air pollution data</button>
         </div>
       </div>
     {% endif %}
@@ -57,6 +69,19 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
 
   <script>
+    function toggleAirPollution(airDivId, buttonId) {
+        var airDiv = document.getElementById(airDivId);
+        var button = document.getElementById(buttonId);
+
+        if (airDiv.style.display === 'none') {
+            airDiv.style.display = 'block';
+            button.textContent = 'Show less';
+        } else {
+            airDiv.style.display = 'none';
+            button.textContent = 'Show more';
+        }
+         
+        }
       // Function to fetch weather data and initialize minimaps and graphs for both cities
       function fetchWeatherAndInitMaps() {
           // Replace 'YOUR_API_KEY' with your actual API key from OpenWeatherMap
@@ -65,7 +90,7 @@
           var city2 = '{{ weather_data2.city }}';
           var apiUrl1 = 'https://api.openweathermap.org/data/2.5/weather?q=' + city1 + '&appid=' + apiKey;
           var apiUrl2 = 'https://api.openweathermap.org/data/2.5/weather?q=' + city2 + '&appid=' + apiKey;
-
+          
           // Fetch weather data for city 1 and create map and graph
           fetch(apiUrl1)
               .then(response => response.json())
@@ -78,6 +103,10 @@
 
                   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  }).addTo(map1);
+                  L.tileLayer('https://{s}.tile.openweathermap.org/map/{layer}/{z}/{x}/{y}.png?appid=' + apiKey, {
+                    attribution: 'Map data &copy; <a href="https://openweathermap.org">OpenWeatherMap</a>',
+                    layer: 'precipitation_new', // You can change the layer here (precipitation_new, wind_new, etc.)
                   }).addTo(map1);
 
                   L.marker([lat1, lon1]).addTo(map1)
@@ -114,6 +143,10 @@
                   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                   }).addTo(map2);
+                  L.tileLayer('https://{s}.tile.openweathermap.org/map/{layer}/{z}/{x}/{y}.png?appid=' + apiKey, {
+                    attribution: 'Map data &copy; <a href="https://openweathermap.org">OpenWeatherMap</a>',
+                    layer: 'wind_new', // You can change the layer here (precipitation_new, wind_new, etc.)
+                  }).addTo(map2);
 
                   L.marker([lat2, lon2]).addTo(map2)
                       .bindPopup(cityName2)
@@ -147,7 +180,7 @@
                   datasets: [{
                       label: 'Temperature (°C)',
                       data: temperatures,
-                      borderColor: 'rgb(75, 192, 192)',
+                      borderColor: 'rgb(26, 68, 89)',
                       borderWidth: 2,
                       fill: false,
                   }]

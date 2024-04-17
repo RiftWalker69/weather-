@@ -1,0 +1,15 @@
+<body> 
+    {%if airpop_data %}
+    <div>
+        <h2>Air Polution data: </h2>
+        <p>Сoncentration of CO (Carbon monoxide): {{ airpop_data.co }} μg/m3</p>
+        <p>Сoncentration of NO (Nitrogen monoxide): {{airpop_data.no}} μg/m3</p>
+        <p>Сoncentration of NO2 (Nitrogen dioxide): {{ airpop_data.no2 }} μg/m3</p>
+        <p>Сoncentration of O3 (Ozone): {{ airpop_data.o3 }} μg/m3</p>
+        <p>Сoncentration of SO2 (Sulphur dioxide): {{ airpop_data.so2 }} μg/m3</p>
+        <p>Сoncentration of PM2.5 (Fine particles matter): {{ airpop_data.pm2_5}} μg/m3</p>
+        <p>Сoncentration of PM10 (Coarse particulate matter): {{ airpop_data.pm10 }} μg/m3</p>
+        <p>Concentration of NH3 (Ammonia): {{ airpop_data.nh3 }} μg/m3</p>
+    </div>
+    {% endif %}
+</body>
