@@ -106,9 +106,12 @@
                   }).addTo(map1);
                   L.tileLayer('https://{s}.tile.openweathermap.org/map/{layer}/{z}/{x}/{y}.png?appid=' + apiKey, {
                     attribution: 'Map data &copy; <a href="https://openweathermap.org">OpenWeatherMap</a>',
-                    layer: 'precipitation_new', // You can change the layer here (precipitation_new, wind_new, etc.)
+                    layer: 'wind_new', // You can change the layer here (precipitation_new, wind_new, etc.)
                   }).addTo(map1);
-
+                  L.tileLayer('https://{s}.tile.openweathermap.org/map/{layer}/{z}/{x}/{y}.png?appid=' + apiKey, {
+                    attribution: 'Map data &copy; <a href="https://openweathermap.org">OpenWeatherMap</a>',
+                    layer: 'clouds_new', // You can change the layer here (precipitation_new, wind_new, etc.)
+                  }).addTo(map1);
                   L.marker([lat1, lon1]).addTo(map1)
                       .bindPopup(cityName1)
                       .openPopup();
@@ -147,7 +150,10 @@
                     attribution: 'Map data &copy; <a href="https://openweathermap.org">OpenWeatherMap</a>',
                     layer: 'wind_new', // You can change the layer here (precipitation_new, wind_new, etc.)
                   }).addTo(map2);
-
+                  L.tileLayer('https://{s}.tile.openweathermap.org/map/{layer}/{z}/{x}/{y}.png?appid=' + apiKey, {
+                    attribution: 'Map data &copy; <a href="https://openweathermap.org">OpenWeatherMap</a>',
+                    layer: 'clouds_new', // You can change the layer here (precipitation_new, wind_new, etc.)
+                  }).addTo(map2);
                   L.marker([lat2, lon2]).addTo(map2)
                       .bindPopup(cityName2)
                       .openPopup();
@@ -205,7 +211,7 @@
               }
           });
       }
-
+      
       // Call the function to fetch weather data and initialize minimaps and graphs when the page loads
       window.onload = fetchWeatherAndInitMaps;
   </script>

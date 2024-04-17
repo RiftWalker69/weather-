@@ -28,7 +28,10 @@
         </div>
         <div class="wind">
             <h1>Wind speed:{{ weather_data.windspeed }} meter/sec</h1>
-            <p>Rain: {{ weather_data.rain }}</p>
+            
+            {% if weather_data.visibility %}
+            <h1>Visibility is {{ weather_data.visibility }} meter</h1>
+            {% endif %}
         </div>
     </div>
     {% endif %}
