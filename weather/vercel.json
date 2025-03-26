@@ -1,14 +1,18 @@
 {
   "builds": [
     {
-      "src": "weather/wsgi.py",
+      "src": "manage.py",
       "use": "@vercel/python"
+    },
+    {
+      "src": "static/",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "weather/wsgi.py"
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
     }
   ]
 }
