@@ -27,7 +27,8 @@ DEBUG = True
 
 import os
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost","weather-five-gamma-19.vercel.app").split(",")
+ALLOWED_HOSTS = ["*"]
+
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
