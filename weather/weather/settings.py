@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-7_a=_*-d#97gr-$9^ie@+h3c@$z67kght62+o(hmcq71l409!7
 
 
 # Define the static folder
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 
 # This is where the collected static files will be stored
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
