@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -22,19 +22,22 @@ GDAL_LIBRARY_PATH = '/path/to/libgdal.so'  # Adjust this path based on your GDAL
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-7_a=_*-d#97gr-$9^ie@+h3c@$z67kght62+o(hmcq71l409!7'
 
+
+# Define the static folder
+STATIC_URL = '/static/'
+
+# This is where the collected static files will be stored
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# In production, make sure you have this enabled
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-import os
+
 
 ALLOWED_HOSTS = ["*"]
-
-STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
 
 
 
