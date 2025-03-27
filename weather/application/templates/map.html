@@ -73,14 +73,7 @@
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { // Add tile layer (OpenStreetMap)
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
-        L.tileLayer('https://{s}.tile.openweathermap.org/map/{layer}/{z}/{x}/{y}.png?appid=' + apiKey, {
-            attribution: 'Map data &copy; <a href="https://openweathermap.org">OpenWeatherMap</a>',
-            layer: 'wind_new', // You can change the layer here (precipitation_new, wind_new, etc.)
-            }).addTo(map);
-            L.tileLayer('https://{s}.tile.openweathermap.org/map/{layer}/{z}/{x}/{y}.png?appid=' + apiKey, {
-            attribution: 'Map data &copy; <a href="https://openweathermap.org">OpenWeatherMap</a>',
-            layer: 'temp_new', // You can change the layer here (precipitation_new, wind_new, etc.)
-            }).addTo(map);   
+           
         var searchControl = new L.Control.Search({
             position: 'topright',
             propertyName: 'name',
