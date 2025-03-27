@@ -25,22 +25,15 @@ SECRET_KEY = 'django-insecure-7_a=_*-d#97gr-$9^ie@+h3c@$z67kght62+o(hmcq71l409!7
 
 # Define the static folder
 STATIC_URL = 'static/'
-
-# This is where the collected static files will be stored
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Vercel needs this
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # Your local static files
 
 # In production, make sure you have this enabled
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-
-
 ALLOWED_HOSTS = ["*"]
-
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -62,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'weather.urls'
